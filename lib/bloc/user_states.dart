@@ -15,3 +15,5 @@ class UserErrorState extends UserStates {
   UserErrorState(this.message);
   final String message;
 }
+
+class UserSavingState extends UserStates {}
