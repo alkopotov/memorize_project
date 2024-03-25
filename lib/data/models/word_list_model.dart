@@ -1,24 +1,19 @@
 
 import 'package:memorize/data/models/word_item_model.dart';
 
+
 class WordListModel {
   WordListModel({
-    required this.userId
+    required this.userId,
+    required this.items
   });
 
   final String userId;
-  List<WordItemModel> _items = [];
+  List<WordItemModel> items;
 
-  int get itemsNumber {
-    return _items.length;
-  }
-
-  List<WordItemModel> get items {
-    return _items;
-  }
 
   bool includesWord(String title, String meaning) {
-    for (var e in _items) {
+    for (var e in items) {
       if (e.wordItemTitle == title && e.wordItemMeaning == meaning) {
         return true;
       }
@@ -26,10 +21,19 @@ class WordListModel {
     return false;
   }
 
-  // Будем ли мы проверять уникальность слова (значение - перевод) ?
   void addWordItem(WordItemModel wordItem) {
     if (!includesWord(wordItem.wordItemTitle, wordItem.wordItemMeaning)) {
-      _items.add(wordItem);
+      items.add(wordItem);
     }
   }
+
+ Map<String, dynamic> toJson() => {
+    'userId': userId,
+    'items': items
+  };
+
+  factory WordListModel.fromJson(Map<String, dynamic> json) => WordListModel(
+    userId: json['userId'],
+    items: (json['items'] as List).map((e) => WordItemModel.fromJson(e)).toList(),
+  );
 }

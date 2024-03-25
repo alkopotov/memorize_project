@@ -1,6 +1,6 @@
-class UserModel {
+class User {
 
-  UserModel({
+  User({
     required this.userId,
     required this.userName,
     required this.userLogin,
@@ -15,7 +15,15 @@ class UserModel {
   late bool userAuthorized;
 
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  Map<String, dynamic> toJson() => {
+    'userId': userId,
+    'userName': userName,
+    'userLogin': userLogin,
+    'userPassword': userPassword,
+    'userAuthorized': userAuthorized,
+  };
+  
+  factory User.fromJson(Map<String, dynamic> json) => User(
       userId: json['userId'],
       userName: json['userName'],
       userLogin: json['userLogin'],

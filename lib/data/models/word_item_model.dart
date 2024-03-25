@@ -3,19 +3,26 @@ class WordItemModel {
     required this.wordItemId,
     required this.wordItemTitle,
     required this.wordItemMeaning,
+    required this.wordItemScore
   });
 
   final String wordItemId;
   final String wordItemTitle;
   final String wordItemMeaning;
-  late int _wordItemScore = 0;
+  late int wordItemScore;
 
-  int get wordItemScore {
-    return _wordItemScore;
-  }
+ 
+  Map<String, dynamic> toJson() => {
+    'wordItemId': wordItemId,
+    'wordItemTitle': wordItemTitle,
+    'wordItemMeaning': wordItemMeaning,
+    'wordItemScore': wordItemScore
+  };
 
-   set wordItemScore(number) {
-    _wordItemScore = number;
-  } 
-
+  factory WordItemModel.fromJson(Map<String, dynamic> json) => WordItemModel(
+    wordItemId: json['wordItemId'],
+    wordItemTitle: json['wordItemTitle'],
+    wordItemMeaning: json['wordItemMeaning'],
+    wordItemScore: json['wordItemScore'],
+  );
 }
