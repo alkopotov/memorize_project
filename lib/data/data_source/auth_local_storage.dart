@@ -1,11 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:memorize/data/data_source/abstract_local_storage.dart';
 
-class UsersLocalStorage extends AbstractLocalStorage {
+class AuthLocalStorage extends AbstractLocalStorage {
 
   FlutterSecureStorage usersStorage = const FlutterSecureStorage();
   @override
-  String get key => 'users';
+  String get key => 'user';
 
   @override
   Future<void> writeData(String data) async {
