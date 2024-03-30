@@ -45,10 +45,10 @@ class _MyAppState extends State<MyApp> {
           }
           if (state is AuthLoadedState) {
             if (state.user.userId == '0') {
-              return const AuthorizePage();
+              return const RegisterPage();
             }
             if (!state.user.userAuthorized) {
-              return const RegisterPage();
+              return const AuthorizePage();
             }
             return const MyHomePage(title: 'Запомни слова');
           }

@@ -16,5 +16,9 @@ class AuthorizeLDS {
       };
     }
     return jsonDecode(data);
-  } 
+  }
+
+  Future<void> writeData(String data) async {
+    await AuthLocalStorage().writeData(data);
+  }
 }
