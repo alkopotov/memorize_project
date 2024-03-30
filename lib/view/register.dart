@@ -5,6 +5,7 @@ import 'package:memorize/main.dart';
 
 import '../data/data_source/auth_lds.dart';
 
+
 class RegisterPage extends StatefulWidget {
    const RegisterPage({super.key});
 
@@ -27,13 +28,13 @@ class _RegisterPageState extends State<RegisterPage> {
       print('Пароли совпадают');
 
 
-      // getIt<AuthorizeLDS>().writeData(jsonEncode({
-      //   'userId': '0',
-      //   'userName': name,
-      //   'userLogin': login,
-      //   'userPassword': password,
-      //   'userAuthorized': false
-      // }));
+      getIt<AuthorizeLDS>().writeData(jsonEncode({
+        'userId': '0',
+        'userName': name,
+        'userLogin': login,
+        'userPassword': password,
+        'userAuthorized': false
+      }));
 
 
     }
