@@ -1,10 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:memorize/main.dart';
+import 'package:uuid/uuid.dart';
 
-import '../data/data_source/auth_lds.dart';
+import '../bloc/auth_bloc.dart';
+import '../bloc/auth_events.dart';
+import '../data/models/user_model.dart';
 
+
+var uuid = const Uuid();
 
 class RegisterPage extends StatefulWidget {
    const RegisterPage({super.key});
@@ -24,17 +27,31 @@ class _RegisterPageState extends State<RegisterPage> {
 
   handleSubmit() {
     if (password == passwordRepeat) {
-
+      setState(() {
+        getIt<AuthBloc>().add(SetAuthEvent(
+          user: User(
+            userId: uuid.v4(),
+            userName: name,
+            userLogin: login,
+            userPassword: password,
+            userAuthorized: false
+          )
+        ));
+      });
       print('Пароли совпадают');
 
 
-      getIt<AuthorizeLDS>().writeData(jsonEncode({
-        'userId': '0',
-        'userName': name,
-        'userLogin': login,
-        'userPassword': password,
-        'userAuthorized': false
-      }));
+
+      // getIt<AuthorizeLDS>().writeData(
+      //   jsonEncode({
+      //     'userId': '0',
+      //     'userName': name,
+      //     'userLogin': login,
+      //     'userPassword': password,
+      //     'userAuthorized': false
+      //   }
+      // )
+      // );
 
 
     }
@@ -77,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 TextField(
                   onChanged: (value) {
-                    password = value;
+                    passwordRepeat = value;
                   },
                   decoration: const InputDecoration(labelText: 'Повторите пароль'),
                 ),
