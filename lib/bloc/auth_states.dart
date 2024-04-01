@@ -17,3 +17,5 @@ class AuthErrorState extends AuthStates {
 }
 
 class UserSavingState extends AuthStates {}
+
+class UserDeletingState extends AuthStates {}

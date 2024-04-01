@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Выбери игру'),
+        title: Text(widget.title),
       ),
       body:  const Center(
         child: Text('Cписок игр'),

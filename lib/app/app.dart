@@ -37,11 +37,12 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BlocBuilder<AuthBloc, AuthStates>(
+      home:
+       BlocBuilder<AuthBloc, AuthStates>(
         bloc: getIt<AuthBloc>(),
         builder: (context, state) {
           if (state is AuthInitialState) {
-            return const AuthorizePage();
+            return const RegisterPage();
           }
           if (state is AuthLoadedState) {
             if (state.user.userId == '0') {
@@ -49,12 +50,15 @@ class _MyAppState extends State<MyApp> {
             }
             if (!state.user.userAuthorized) {
               return const AuthorizePage();
-            }
-            return const MyHomePage(title: 'Запомни слова');
+            } else {
+              return  MyHomePage(title: '$state}');
+            }   
           }
-          return const MyHomePage(title: 'Запомни слова');
+          return  MyHomePage(title: '$state.message');
         }, 
     )
+
+
     );
   }
 }

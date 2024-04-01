@@ -27,8 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   handleSubmit() {
     if (password == passwordRepeat) {
-      setState(() {
-        getIt<AuthBloc>().add(SetAuthEvent(
+
+      getIt<AuthBloc>().add(SetAuthEvent(
           user: User(
             userId: uuid.v4(),
             userName: name,
@@ -37,23 +37,13 @@ class _RegisterPageState extends State<RegisterPage> {
             userAuthorized: false
           )
         ));
-      });
+        // getIt<AuthBloc>().add(
+        //   GetAuthEvent()
+        // );
+    //  setState(() {
+        
+    //   });
       print('Пароли совпадают');
-
-
-
-      // getIt<AuthorizeLDS>().writeData(
-      //   jsonEncode({
-      //     'userId': '0',
-      //     'userName': name,
-      //     'userLogin': login,
-      //     'userPassword': password,
-      //     'userAuthorized': false
-      //   }
-      // )
-      // );
-
-
     }
     else {
       print('Пароли не совпадают');

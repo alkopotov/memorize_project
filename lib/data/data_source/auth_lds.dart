@@ -21,4 +21,8 @@ class AuthorizeLDS {
   Future<void> writeData(String data) async {
     await AuthLocalStorage().writeData(data);
   }
+
+  Future<void> deleteData() async {
+    await AuthLocalStorage().deleteData();
+  }
 }
