@@ -18,8 +18,8 @@ class _AuthorizePageState extends State<AuthorizePage> {
 
 
   late User user;
-  late String login;
-  late String password;
+  late String login = '';
+  late String password = '';
 
   @override
   void initState() {
@@ -43,44 +43,47 @@ class _AuthorizePageState extends State<AuthorizePage> {
       ),
       body: 
       Center(
-        child: Column(
-          children: [
-            Text(user.userName),
-            TextField(
-              onChanged: (value) {
-                login = value;
-              },
-              decoration: const InputDecoration(
-                labelText: 'Введите логин',
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              Text(user.userName),
+              TextField(
+                onChanged: (value) {
+                  login = value;
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Введите логин',
+                ),
               ),
-            ),
-
-            TextField(
-              onChanged: (value) {
-                password = value;
-              },
-              decoration: const InputDecoration(
-                labelText: 'Введите пароль',
+          
+              TextField(
+                onChanged: (value) {
+                  password = value;
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Введите пароль',
+                ),
               ),
-            ),
-            ElevatedButton(onPressed: () {
-              if (login == user.userLogin && password == user.userPassword) {
-                getIt<AuthBloc>().add(SetAuthEvent(user: User(
-                  userId: user.userId,
-                  userName: user.userName,
-                  userLogin: login,
-                  userPassword: password,
-                  userAuthorized: true
-                )));
-              }
-            }, child: const Text('Войти')),
-            ElevatedButton(
-              onPressed: () {
-                getIt<AuthBloc>().add(RemoveAuthEvent());
-              },
-              child: const Text('Удалить регистрацию'),
-            ),
-          ],
+              ElevatedButton(onPressed: () {
+                if (login == user.userLogin && password == user.userPassword) {
+                  getIt<AuthBloc>().add(SetAuthEvent(user: User(
+                    userId: user.userId,
+                    userName: user.userName,
+                    userLogin: login,
+                    userPassword: password,
+                    userAuthorized: true
+                  )));
+                }
+              }, child: const Text('Войти')),
+              ElevatedButton(
+                onPressed: () {
+                  getIt<AuthBloc>().add(RemoveAuthEvent());
+                },
+                child: const Text('Удалить регистрацию'),
+              ),
+            ],
+          ),
         ),
       ),
     );

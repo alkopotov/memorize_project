@@ -25,9 +25,40 @@ class _RegisterPageState extends State<RegisterPage> {
 
   late String passwordRepeat = '';
 
-  handleSubmit() {
-    if (password == passwordRepeat) {
+  late String messagePass = '';
 
+  late String messageName = '';
+
+  late String messageLogin = '';
+
+  bool _isObscure = true;
+
+  handleSubmit() {
+
+    if (name == '') {
+      messageName = 'Заполните поле имя';
+    } else {
+      messageName = '';
+    }
+
+    if (login == '') {
+      messageLogin = 'Заполните поле логин';  
+    } else {
+      messageLogin = '';
+    }
+    if (password == '') {
+      messagePass = 'Заполните поле пароль';
+    } 
+    else if (password != passwordRepeat) {
+      messagePass = 'Пароли не совпадают';
+      
+    }
+    
+    setState(() {
+        
+      });
+
+    if (password == passwordRepeat && password != '' && name != '' && login != '') {
       getIt<AuthBloc>().add(SetAuthEvent(
           user: User(
             userId: uuid.v4(),
@@ -37,20 +68,14 @@ class _RegisterPageState extends State<RegisterPage> {
             userAuthorized: false
           )
         ));
-        // getIt<AuthBloc>().add(
-        //   GetAuthEvent()
-        // );
-    //  setState(() {
-        
-    //   });
-      print('Пароли совпадают');
     }
     else {
-      print('Пароли не совпадают');
+     
+       setState(() {
+        
+      });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +95,31 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   decoration: const InputDecoration(labelText: 'Имя пользователя'),
                 ),
+                Text(messageName),
                 TextField(
                   onChanged: (value) {
                     login = value;
                   },
                   decoration: const InputDecoration(labelText: 'Логин'),
                 ),
+                Text(messageLogin),
                 TextField(
                   onChanged: (value) {
                     password = value;
                   },
-                  decoration: const InputDecoration(labelText: 'Пароль'),
+                  decoration: InputDecoration(
+                    labelText: 'Пароль',
+                    suffixIcon: IconButton(
+                      icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _isObscure = !_isObscure;
+                        });
+                      },
+                    ),
+                  ),
+                  obscureText: _isObscure,
+
                 ),
                 TextField(
                   onChanged: (value) {
@@ -88,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                   decoration: const InputDecoration(labelText: 'Повторите пароль'),
                 ),
+                Text(messagePass),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: ElevatedButton(

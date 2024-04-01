@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memorize/view/authorize.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -11,6 +12,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  List<Widget> pages = [
+    const Text('Cписок игр'),
+    const Text('Добавить'),
+    const AuthorizePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     
@@ -19,9 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         title: Text(widget.title),
       ),
-      body:  const Center(
-        child: Text('Cписок игр'),
-      ),
+      body:  pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -36,7 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Профиль',
             icon: Icon(Icons.person)
           ),
-        ]),
+        ],
+        onTap: (index) => _onItemTapped(index),
+      ),
     );
   }
 }
