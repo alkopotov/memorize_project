@@ -16,13 +16,11 @@ class AuthRepository {
   return User.fromJson(user);
   }
 
-  Future<bool> setUser(User user) async {
+  Future<void> setUser(User user) async {
     await authorizeLDS.writeData(jsonEncode(user.toJson()));
-    return true;
   }
 
-  Future<bool> deleteUser() async {
+  Future<void> deleteUser() async {
     await authorizeLDS.deleteData();
-    return true;
   }
 }

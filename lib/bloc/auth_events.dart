@@ -10,5 +10,3 @@ class SetAuthEvent extends AuthEvents {
 }
 
 class RemoveAuthEvent extends AuthEvents {}
-
-class DelAuthEvent extends AuthEvents {}

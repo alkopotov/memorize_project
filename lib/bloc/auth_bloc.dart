@@ -28,19 +28,19 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
   }
 
   Future<void> _setUser(SetAuthEvent event, Emitter<AuthStates> emit) async {
-    emit(AuthLoadingState());
+    emit(AuthLoadedState(event.user));
     print('0');
     try {
       await authRepository.setUser(event.user);
-      print('1');
-      emit(AuthLoadingState());
-      final user = await authRepository.getUser();
+
+      // print('1');
+      // final user = await authRepository.getUser();
       print('2');
-      emit (AuthLoadedState(user));
-      print('Пользователь ${event.user.userName} зарегистрирован');
+      // emit(AuthLoadedState(event.user));
+      
     } catch (e) {
       print ('Ошибка на _setUser'+ e.toString());
-      emit(AuthErrorState(e.toString()));
+      // emit(AuthErrorState(e.toString()));
     }
   }
 
