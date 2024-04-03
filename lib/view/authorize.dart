@@ -59,7 +59,7 @@ class _AuthorizePageState extends State<AuthorizePage> {
       body: 
       Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               Text(

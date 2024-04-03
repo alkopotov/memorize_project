@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memorize/view/authorize.dart';
+import 'package:memorize/view/profile.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -23,7 +24,13 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> pages = [
     const Text('Cписок игр'),
     const Text('Добавить'),
-    const AuthorizePage(),
+    const ProfilePage(),
+  ];
+
+  List<String> titles = [
+    'Учить слова',
+    'Редактирование списка слов',
+    'Профиль',
   ];
 
   @override
@@ -32,10 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.title),
+        title: Text(titles[_selectedIndex]),
       ),
       body:  pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
             label: 'Учить',

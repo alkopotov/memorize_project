@@ -33,6 +33,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool _isObscure = true;
 
+  bool _isObscureRepeat = true;
+
   handleSubmit() {
 
     if (name == '') {
@@ -124,7 +126,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   onChanged: (value) {
                     passwordRepeat = value;
                   },
-                  decoration: const InputDecoration(labelText: 'Повторите пароль'),
+                  decoration:  InputDecoration(
+                    labelText: 'Повторите пароль',
+                    suffixIcon: IconButton(
+                      icon: Icon(_isObscureRepeat ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _isObscureRepeat = !_isObscureRepeat;
+                        });
+                      },
+                    ),
+                  ),
+                  obscureText: _isObscureRepeat,
                 ),
                 Text(messagePass),
                 Padding(
