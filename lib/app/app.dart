@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
             if (!state.user.userAuthorized) {
               return const AuthorizePage();
             } else {
-              return  MyHomePage(title: '$state}');
+              return const MyHomePage(title: 'Учим слова');
             }   
           }
           return  MyHomePage(title: '$state.message');

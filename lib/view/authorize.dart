@@ -20,6 +20,7 @@ class _AuthorizePageState extends State<AuthorizePage> {
   late User user;
   late String login = '';
   late String password = '';
+  bool _isObscure = true;
 
   @override
   void initState() {
@@ -35,11 +36,25 @@ class _AuthorizePageState extends State<AuthorizePage> {
     super.initState();
   }
 
+    handleAuthorize() {
+      if (login == user.userLogin && password == user.userPassword) {
+            getIt<AuthBloc>().add(SetAuthEvent(
+              user: User(
+                userId: user.userId,
+                userName: user.userName,
+                userLogin: login,
+                userPassword: password,
+                userAuthorized: true
+                ),
+              ),
+            );
+      }
+    }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        title: const Text('Авторизация'),
+        title: Text(user.userAuthorized ? 'Ваши данные' : 'Авторизация'),
       ),
       body: 
       Center(
@@ -47,35 +62,44 @@ class _AuthorizePageState extends State<AuthorizePage> {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              Text(user.userName),
-              TextField(
-                onChanged: (value) {
-                  login = value;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Введите логин',
-                ),
+              Text(
+                'Пользователь: ${user.userName}',
+                style: const TextStyle(fontSize: 24.0),
               ),
-          
-              TextField(
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Введите пароль',
+              if (!user.userAuthorized)
+                Column(
+                  children: [
+                    TextField(
+                      onChanged: (value) {
+                        login = value;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Введите логин',
+                      ),
+                    ),
+                    TextField(
+                      onChanged: (value) {
+                      password = value;
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Введите пароль',
+                        suffixIcon: IconButton(
+                          icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                            });
+                            },
+                          ),
+                      ),
+                      obscureText: _isObscure,
+                    ),
+                    ElevatedButton(onPressed: () {
+                      handleAuthorize();
+                  }, child: const Text('Войти')),
+                  ]
                 ),
-              ),
-              ElevatedButton(onPressed: () {
-                if (login == user.userLogin && password == user.userPassword) {
-                  getIt<AuthBloc>().add(SetAuthEvent(user: User(
-                    userId: user.userId,
-                    userName: user.userName,
-                    userLogin: login,
-                    userPassword: password,
-                    userAuthorized: true
-                  )));
-                }
-              }, child: const Text('Войти')),
+              
               ElevatedButton(
                 onPressed: () {
                   getIt<AuthBloc>().add(RemoveAuthEvent());

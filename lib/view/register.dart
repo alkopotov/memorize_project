@@ -51,7 +51,6 @@ class _RegisterPageState extends State<RegisterPage> {
     } 
     else if (password != passwordRepeat) {
       messagePass = 'Пароли не совпадают';
-      
     }
     
     setState(() {
