@@ -143,13 +143,20 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: ElevatedButton(
-                  onPressed: () {
-                    handleSubmit();
-                  },
-                  child: const Text('Зарегистрироваться'),
-                ),)
-              ],
+                    onPressed: () {
+                      handleSubmit();
+                    },
+                    child: const Text('Зарегистрироваться'),
                   ),
+                ),
+                Image.asset(
+                  'assets/images/register.jpeg',
+                  width: 300,
+                  height: 300,
+                  fit: BoxFit.fill,
+                 )
+              ],
+            ),
           ),
       )
     );

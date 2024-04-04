@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:memorize/view/authorize.dart';
 import 'package:memorize/view/profile.dart';
 
 class MyHomePage extends StatefulWidget {
