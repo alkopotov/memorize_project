@@ -20,7 +20,6 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
 
     try {
       final user = await authRepository.getUser();
-      log(user.userName);
       emit(AuthLoadedState(user));
     } on Exception catch (e) {
       log('Ошибка на _getUser ${e.toString()}');
@@ -50,5 +49,4 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       emit(AuthErrorState(e.toString()));
     }
   }
- 
 }
