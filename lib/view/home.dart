@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memorize/view/profile.dart';
+import 'package:memorize/view/word_list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -22,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> pages = [
     const Text('Cписок игр'),
-    const Text('Добавить'),
+    const WordListPage(),
     const ProfilePage(),
   ];
 

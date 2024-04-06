@@ -8,7 +8,10 @@ class WordListLDS {
   Future <List<WordItemModel>> getWordList() async {
     final data = await WordListLocalStorage().readData();
     if (data == '') {
-      return [];
+      return [ 
+        WordItemModel(wordItemId: '1', wordItemTitle: 'hello', wordItemMeaning: 'привет', wordItemScore: 25),
+        WordItemModel(wordItemId: '2', wordItemTitle: 'goodbye', wordItemMeaning: 'до свидания', wordItemScore: 25)
+      ];
     }
     return (jsonDecode(data) as List).map((e) => WordItemModel.fromJson(e)).toList();
   }

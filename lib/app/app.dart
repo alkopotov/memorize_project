@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memorize/bloc/auth_bloc.dart';
+import 'package:memorize/data/data_source/word_list_lds.dart';
 import 'package:memorize/domain/auth_repository.dart';
 import 'package:memorize/main.dart';
 import 'package:memorize/view/register.dart';
 import '../bloc/auth_events.dart';
 import '../bloc/auth_states.dart';
+import '../bloc/word_list_bloc.dart';
+import '../bloc/word_list_events.dart';
 import '../data/data_source/auth_lds.dart';
+import '../domain/word_list_repository.dart';
 import '../view/authorize.dart';
 import '../view/home.dart';
 
@@ -26,6 +30,9 @@ class _MyAppState extends State<MyApp> {
     getIt.registerSingleton<AuthorizeLDS>(AuthorizeLDS());
     getIt.registerSingleton<AuthRepository>(AuthRepository(getIt<AuthorizeLDS>()));
     getIt.registerSingleton<AuthBloc>(AuthBloc(getIt<AuthRepository>())..add(GetAuthEvent()));
+    getIt.registerSingleton<WordListLDS>(WordListLDS());
+    getIt.registerSingleton<WordListRepository>(WordListRepository(getIt<WordListLDS>()));
+    getIt.registerSingleton<WordListBloc>(WordListBloc(getIt<WordListRepository>())..add(GetWordListEvent()));
     super.initState();
   }
 
