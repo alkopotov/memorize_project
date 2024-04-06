@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,6 +22,23 @@ class _WordListPageState extends State<WordListPage> {
 
   late String wordItemTitle = '';
   late String wordItemMeaning = '';
+
+
+  handleAddWord() {
+    setState(() {
+      getIt<WordListBloc>().add(SetWordListEvent(wordList: [...wordList, WordItemModel(wordItemId: uuid.v4(), wordItemTitle: wordItemTitle, wordItemMeaning: wordItemMeaning, wordItemScore: 0)]));
+      wordList = getIt<WordListBloc>().state is WordListLoadedState ? (getIt<WordListBloc>().state as WordListLoadedState).wordList : [];
+      wordItemTitle = '';
+      wordItemMeaning = '';
+    });
+  }
+
+  handleDeleteWordList(){
+    setState(() {
+      getIt<WordListBloc>().add(SetWordListEvent(wordList: []));
+      wordList = getIt<WordListBloc>().state is WordListLoadedState ? (getIt<WordListBloc>().state as WordListLoadedState).wordList : [];
+    });
+  }
 
   @override
   void initState() {
@@ -62,10 +78,7 @@ class _WordListPageState extends State<WordListPage> {
             const SizedBox(height: 10.0),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  getIt<WordListBloc>().add(SetWordListEvent(wordList: [...wordList, WordItemModel(wordItemId: uuid.v4(), wordItemTitle: wordItemTitle, wordItemMeaning: wordItemMeaning, wordItemScore: 0)]));
-                  wordList = getIt<WordListBloc>().state is WordListLoadedState ? (getIt<WordListBloc>().state as WordListLoadedState).wordList : [];
-                });
+                handleAddWord();
               },
               child: const Text('Добавить'),
             ),
@@ -79,25 +92,31 @@ class _WordListPageState extends State<WordListPage> {
               ),
             ),
             ElevatedButton(onPressed:() {
-              getIt<WordListBloc>().add(RemoveWordListEvent());
+              handleDeleteWordList();
             }, child: const Text('Очистить')),
-
-            Expanded(
-              child: ListView.builder(
-                itemCount: wordList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'), 
-                    subtitle: Text(wordList[index].wordItemScore.toString()),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        // getIt<WordListBloc>().add(RemoveWordListEvent(wordList: wordList, index: index));
-                      },
-                    ),
-                  );
-                },
-              ),
+            BlocBuilder<WordListBloc, WordListStates>(
+              bloc: getIt<WordListBloc>(),
+              builder: (context, state) {
+                if (state is WordListLoadedState) {
+                  wordList = state.wordList;
+                }
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: wordList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text('${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'), 
+                        subtitle: Text(wordList[index].wordItemScore.toString()),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
