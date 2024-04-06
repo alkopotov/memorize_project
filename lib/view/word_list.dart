@@ -65,9 +65,8 @@ class _WordListPageState extends State<WordListPage> {
   }
 
   handleDeleteWordItem(String wordItemId) {
-    getIt<WordListBloc>()
-      .add(DeleteWordEvent(wordId: wordItemId));
-      wordList = getIt<WordListBloc>().state is WordListLoadedState
+    getIt<WordListBloc>().add(DeleteWordEvent(wordId: wordItemId));
+    wordList = getIt<WordListBloc>().state is WordListLoadedState
         ? (getIt<WordListBloc>().state as WordListLoadedState).wordList
         : [];
   }
@@ -81,87 +80,84 @@ class _WordListPageState extends State<WordListPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<WordListBloc, WordListStates>(
         bloc: getIt<WordListBloc>(),
         builder: (context, state) {
           if (state is WordListLoadedState) {
             wordList = state.wordList;
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('Добавить слово'),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: worldItemTitleController,
-                      onChanged: (value) =>
-                          worldItemTitleController.text = value,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Слово',
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: worldItemMeaningController,
-                      onChanged: (value) =>
-                          worldItemMeaningController.text = value,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Значение',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      handleAddWord();
-                    },
-                    child: const Text('Добавить'),
-                  ),
-                  Center(
-                    child: Text('Изучаемые слова: ${wordList.length}',
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        handleDeleteWordList();
-                      },
-                      child: const Text('Очистить')),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: wordList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                              '${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'),
-                          subtitle:
-                              Text('рейтинг: ${wordList[index].wordItemScore}'),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              handleDeleteWordItem(wordList[index].wordItemId);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            );
-          } else {
-            return Center(child: Text(state.toString()));
           }
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text('Добавить слово'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: worldItemTitleController,
+                    onChanged: (value) => worldItemTitleController.text = value,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Слово',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: worldItemMeaningController,
+                    onChanged: (value) => worldItemMeaningController.text = value,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Значение',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                ElevatedButton(
+                  onPressed: () {
+                    handleAddWord();
+                  },
+                  child: const Text('Добавить слово'),
+                ),
+                Center(
+                  child: Text('Изучаемые слова: ${wordList.length}',
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      handleDeleteWordList();
+                    },
+                    child: const Text('Очистить список')),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: wordList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+                        title: Text(
+                            '${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'),
+                        subtitle:
+                            Text('рейтинг: ${wordList[index].wordItemScore.toString()}'),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            handleDeleteWordItem(wordList[index].wordItemId);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          );
         },
       ),
     );
