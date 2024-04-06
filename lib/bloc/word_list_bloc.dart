@@ -24,7 +24,7 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
       wordList = await wordListRepository.getWordList();
       emit(WordListLoadedState(wordList));
     } catch (e) {
-      // emit(WordListErrorState(e.toString()));
+      emit(WordListErrorState(e.toString()));
     }
   }
 
