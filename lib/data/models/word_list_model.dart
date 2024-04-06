@@ -1,16 +1,10 @@
-
 import 'package:memorize/data/models/word_item_model.dart';
 
-
 class WordListModel {
-  WordListModel({
-    required this.userId,
-    required this.items
-  });
+  WordListModel({required this.userId, required this.items});
 
   final String userId;
   List<WordItemModel> items;
-
 
   bool includesWord(String title, String meaning) {
     for (var e in items) {
@@ -27,13 +21,12 @@ class WordListModel {
     }
   }
 
- Map<String, dynamic> toJson() => {
-    'userId': userId,
-    'items': items
-  };
+  Map<String, dynamic> toJson() => {'userId': userId, 'items': items};
 
   factory WordListModel.fromJson(Map<String, dynamic> json) => WordListModel(
-    userId: json['userId'],
-    items: (json['items'] as List).map((e) => WordItemModel.fromJson(e)).toList(),
-  );
+        userId: json['userId'],
+        items: (json['items'] as List)
+            .map((e) => WordItemModel.fromJson(e))
+            .toList(),
+      );
 }

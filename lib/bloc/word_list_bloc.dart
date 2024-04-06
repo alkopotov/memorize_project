@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../data/models/word_item_model.dart';
 import '../domain/word_list_repository.dart';
 import 'word_list_events.dart';
 import 'word_list_states.dart';
@@ -14,10 +15,12 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
 
   final WordListRepository wordListRepository;
 
+  List<WordItemModel> wordList = [];
+  
   Future<void> _getWordList(GetWordListEvent event, Emitter<WordListStates> emit) async {
     emit(WordListLoadingState());
     try {
-      final wordList = await wordListRepository.getWordList();
+      wordList = await wordListRepository.getWordList();
       emit(WordListLoadedState(wordList));
     } catch (e) {
       // emit(WordListErrorState(e.toString()));
@@ -28,7 +31,7 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
     emit(WordListLoadedState(event.wordList));
     try {
       await wordListRepository.writeWordList(event.wordList);
-      final wordList = await wordListRepository.getWordList();
+      wordList = await wordListRepository.getWordList();
       emit(WordListLoadedState(wordList));
     } catch (e) {
       // emit(WordListErrorState(e.toString()));
@@ -39,7 +42,7 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
     emit(WordListLoadingState());
     try {
       await wordListRepository.deleteWordList();
-      final wordList = await wordListRepository.getWordList();
+      wordList = await wordListRepository.getWordList();
       emit(WordListLoadedState(wordList));
     } catch (e) {
       // emit(WordListErrorState(e.toString()));
