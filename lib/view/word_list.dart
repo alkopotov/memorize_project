@@ -95,7 +95,7 @@ class _WordListPageState extends State<WordListPage> {
               children: [
                 const Text('Добавить слово'),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
                   child: TextField(
                     controller: worldItemTitleController,
                     onChanged: (value) => worldItemTitleController.text = value,
@@ -106,7 +106,7 @@ class _WordListPageState extends State<WordListPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 20.0),
                   child: TextField(
                     controller: worldItemMeaningController,
                     onChanged: (value) => worldItemMeaningController.text = value,
@@ -117,11 +117,14 @@ class _WordListPageState extends State<WordListPage> {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                ElevatedButton(
-                  onPressed: () {
-                    handleAddWord();
-                  },
-                  child: const Text('Добавить слово'),
+                Padding(
+                  padding: const EdgeInsets.only(left: 0, right: 0, bottom: 16, top: 0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      handleAddWord();
+                    },
+                    child: const Text('Добавить слово'),
+                  ),
                 ),
                 Center(
                   child: Text('Изучаемые слова: ${wordList.length}',
@@ -140,7 +143,7 @@ class _WordListPageState extends State<WordListPage> {
                     itemCount: wordList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 1.0),
                         title: Text(
                             '${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'),
                         subtitle:
