@@ -1,6 +1,3 @@
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
@@ -25,8 +22,6 @@ class _WordListPageState extends State<WordListPage> {
 
   final worldItemTitleController = TextEditingController();
   final worldItemMeaningController = TextEditingController();
-  late String wordItemTitle = '';
-  late String wordItemMeaning = '';
 
   bool isNewWord() {
     for (var word in wordList) {
@@ -39,15 +34,16 @@ class _WordListPageState extends State<WordListPage> {
   }
 
   handleAddWord() {
-    
     setState(() {
-      if (isNewWord()) {
+      if (isNewWord() &&
+          (worldItemTitleController.text != '') &&
+          (worldItemMeaningController.text != '')) {
         getIt<WordListBloc>().add(SetWordListEvent(wordList: [
           ...wordList,
           WordItemModel(
               wordItemId: uuid.v4(),
               wordItemTitle: worldItemTitleController.text,
-              wordItemMeaning: wordItemMeaning,
+              wordItemMeaning: worldItemMeaningController.text,
               wordItemScore: 0)
         ]));
         wordList = getIt<WordListBloc>().state is WordListLoadedState
@@ -68,6 +64,14 @@ class _WordListPageState extends State<WordListPage> {
     });
   }
 
+  handleDeleteWordItem(String wordItemId) {
+    getIt<WordListBloc>()
+      .add(DeleteWordEvent(wordId: wordItemId));
+      wordList = getIt<WordListBloc>().state is WordListLoadedState
+        ? (getIt<WordListBloc>().state as WordListLoadedState).wordList
+        : [];
+  }
+
   @override
   void initState() {
     wordList = getIt<WordListBloc>().state is WordListLoadedState
@@ -84,73 +88,80 @@ class _WordListPageState extends State<WordListPage> {
         builder: (context, state) {
           if (state is WordListLoadedState) {
             wordList = state.wordList;
-          }
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text('Добавить слово'),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: worldItemTitleController,
-                    onChanged: (value) => worldItemTitleController.text = value,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Слово',
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Добавить слово'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: worldItemTitleController,
+                      onChanged: (value) =>
+                          worldItemTitleController.text = value,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Слово',
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) => wordItemMeaning = value,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Значение',
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: worldItemMeaningController,
+                      onChanged: (value) =>
+                          worldItemMeaningController.text = value,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Значение',
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10.0),
-                ElevatedButton(
-                  onPressed: () {
-                    handleAddWord();
-                  },
-                  child: const Text('Добавить'),
-                ),
-                Center(
-                  child: Text('Изучаемые слова: ${wordList.length}',
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      )),
-                ),
-                ElevatedButton(
+                  const SizedBox(height: 10.0),
+                  ElevatedButton(
                     onPressed: () {
-                      handleDeleteWordList();
+                      handleAddWord();
                     },
-                    child: const Text('Очистить')),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: wordList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                            '${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'),
-                        subtitle:
-                            Text(wordList[index].wordItemScore.toString()),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {},
-                        ),
-                      );
-                    },
+                    child: const Text('Добавить'),
                   ),
-                )
-              ],
-            ),
-          );
+                  Center(
+                    child: Text('Изучаемые слова: ${wordList.length}',
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        handleDeleteWordList();
+                      },
+                      child: const Text('Очистить')),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: wordList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(
+                              '${wordList[index].wordItemTitle}: ${wordList[index].wordItemMeaning}'),
+                          subtitle:
+                              Text('рейтинг: ${wordList[index].wordItemScore}'),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {
+                              handleDeleteWordItem(wordList[index].wordItemId);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
+            );
+          } else {
+            return Center(child: Text(state.toString()));
+          }
         },
       ),
     );

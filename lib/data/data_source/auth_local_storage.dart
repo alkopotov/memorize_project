@@ -9,8 +9,11 @@ class AuthLocalStorage extends AbstractLocalStorage {
 
   @override
   Future<void> writeData(String data) async {
-    await usersStorage.write(key: key, value: data);
-    throw UnimplementedError();
+    try { 
+      await usersStorage.write(key: key, value: data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -21,6 +24,5 @@ class AuthLocalStorage extends AbstractLocalStorage {
   @override
   Future<void> deleteData() async {
     await usersStorage.delete(key: key);
-    throw UnimplementedError();
   }
 }

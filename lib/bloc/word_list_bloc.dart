@@ -11,6 +11,7 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
     on<GetWordListEvent>(_getWordList);
     on<SetWordListEvent>(_setWordList);
     on<RemoveWordListEvent>(_removeWordList);
+    on<DeleteWordEvent>(_deleteWord);
   }
 
   final WordListRepository wordListRepository;
@@ -34,7 +35,20 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
       wordList = await wordListRepository.getWordList();
       emit(WordListLoadedState(wordList));
     } catch (e) {
-      // emit(WordListErrorState(e.toString()));
+      emit(WordListErrorState(e.toString()));
+    }
+  }
+
+  
+  Future<void> _deleteWord(DeleteWordEvent event, Emitter<WordListStates> emit) async {
+    final newWordList = wordList.where((element) => element.wordItemId != event.wordId).toList();
+    emit(WordListLoadingState());
+    try {
+      await wordListRepository.writeWordList(newWordList);
+      wordList = await wordListRepository.getWordList();
+      emit(WordListLoadedState(wordList));
+    } catch (e) {
+      emit(WordListErrorState(e.toString()));
     }
   }
 
@@ -45,7 +59,7 @@ class WordListBloc extends Bloc<WordListEvents, WordListStates> {
       wordList = await wordListRepository.getWordList();
       emit(WordListLoadedState(wordList));
     } catch (e) {
-      // emit(WordListErrorState(e.toString()));
+      emit(WordListErrorState(e.toString()));
     }
   }
 }   

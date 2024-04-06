@@ -24,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       emit(AuthLoadedState(user));
     } on Exception catch (e) {
       log('Ошибка на _getUser ${e.toString()}');
-      // emit(AuthErrorState(e.toString()));
+      emit(AuthErrorState(e.toString()));
     }
   }
 
@@ -35,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       
     } catch (e) {
       log('Ошибка на _setUser ${e.toString()}');
-      // emit(AuthErrorState(e.toString()));
+      emit(AuthErrorState(e.toString()));
     }
   }
 
@@ -47,7 +47,7 @@ class AuthBloc extends Bloc<AuthEvents, AuthStates> {
       emit (AuthLoadedState(user));
     } catch (e) {
       log('Ошибка на _removeUser ${e.toString()}');
-      // emit(AuthErrorState(e.toString()));
+      emit(AuthErrorState(e.toString()));
     }
   }
  

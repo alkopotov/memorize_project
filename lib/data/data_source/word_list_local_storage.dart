@@ -10,7 +10,6 @@ class WordListLocalStorage extends AbstractLocalStorage {
   @override
   Future<void> writeData(String data) async {
     await wordListStorage.write(key: key, value: data);
-    throw UnimplementedError();
   }
 
   @override
@@ -21,7 +20,6 @@ class WordListLocalStorage extends AbstractLocalStorage {
   @override
   Future<void> deleteData() async {
     await wordListStorage.delete(key: key);
-    throw UnimplementedError();
   }
 
 }

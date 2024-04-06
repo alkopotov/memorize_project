@@ -9,5 +9,9 @@ class SetWordListEvent extends WordListEvents {
   final List<WordItemModel> wordList;
 }
 
+class DeleteWordEvent extends WordListEvents {
+  DeleteWordEvent({required this.wordId});
+  final String wordId;
+}
 class RemoveWordListEvent extends WordListEvents {}
 

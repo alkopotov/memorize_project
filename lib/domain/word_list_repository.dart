@@ -10,6 +10,7 @@ class WordListRepository {
 
   Future <void> writeWordList(List<WordItemModel> wordList) async {
     await wordListLDS.writeWordList(wordList);
+
   }
 
   Future <void> deleteWordList() async {
